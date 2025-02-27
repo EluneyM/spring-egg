@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.egg.demo.entidades.Autor;
+import com.egg.demo.exceptiones.AutorNoEncontradoException;
 import com.egg.demo.repositorios.AutorRepositorio;
 
 @Service
@@ -33,11 +34,11 @@ public class AutorServicio {
     }
 
     @Transactional
-    public void modificarAutor(String nombre, String id) {
+    public void modificarAutor(String nombre, String id) throws Exception {
         Optional<Autor> respuesta = autorRepositorio.findById(id);
 
         if (!respuesta.isPresent()) {
-            return;
+            throw new AutorNoEncontradoException("El autor no existe.");
         }
 
         Autor autor = respuesta.get();

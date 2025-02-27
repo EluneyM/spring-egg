@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.egg.demo.entidades.Autor;
 import com.egg.demo.entidades.Editorial;
 import com.egg.demo.entidades.Libro;
+import com.egg.demo.exceptiones.AutorNoEncontradoException;
+import com.egg.demo.exceptiones.EditorialNoEncontradaException;
+import com.egg.demo.exceptiones.LibroNoEncontradoException;
 import com.egg.demo.repositorios.AutorRepositorio;
 import com.egg.demo.repositorios.EditorialRepositorio;
 import com.egg.demo.repositorios.LibroRepositorio;
@@ -55,15 +58,14 @@ public class LibroServicio {
         return libros;
     }
 
-    public void modificarLibro(String titulo, int ejemplares, Long isbn, String autorId, Long editorialId) {
+    public void modificarLibro(String titulo, int ejemplares, Long isbn, String autorId, Long editorialId)
+            throws Exception {
 
         Optional<Libro> respuesta = libroRepositorio.findById(isbn);
         Optional<Autor> autorRespuesta = autorRepositorio.findById(autorId);
         Optional<Editorial> editorialRespuesta = editorialRepositorio.findById(editorialId);
 
-        if (!respuesta.isPresent() || !autorRespuesta.isPresent() || !editorialRespuesta.isPresent()) {
-            return;
-        }
+        this.validar(respuesta, editorialRespuesta, autorRespuesta);
 
         Libro libro = respuesta.get();
         Editorial editorial = editorialRespuesta.get();
@@ -75,5 +77,19 @@ public class LibroServicio {
         libro.setEditorial(editorial);
 
         libroRepositorio.save(libro);
+    }
+
+    private void validar(Optional<Libro> l, Optional<Editorial> e, Optional<Autor> a) throws Exception {
+        if (!l.isPresent()) {
+            throw new LibroNoEncontradoException("El libro no existe.");
+        }
+
+        if (!a.isPresent()) {
+            throw new AutorNoEncontradoException("El autor no existe.");
+        }
+
+        if (!e.isPresent()) {
+            throw new EditorialNoEncontradaException("La editorial no existe.");
+        }
     }
 }
