@@ -18,7 +18,7 @@ public class EditorialServicio {
     private EditorialRepositorio editorialRepositorio;
 
     @Transactional
-    public void crearAutor(String nombre) {
+    public void crearEditorial(String nombre) {
         Editorial editorial = new Editorial();
         editorial.setNombre(nombre);
         editorialRepositorio.save(editorial);
