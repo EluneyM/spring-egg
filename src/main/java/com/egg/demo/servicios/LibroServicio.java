@@ -1,5 +1,6 @@
 package com.egg.demo.servicios;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,9 +33,21 @@ public class LibroServicio {
     private LibroRepositorio libroRepositorio;
 
     @Transactional
-    public void crearLibro(Long isbn, String titulo, int ejemplares, String autorId, Long editorialId) {
+    public void crearLibro(Long isbn, String titulo, int ejemplares, String autorId, Long editorialId)
+            throws Exception {
         Libro libro = new Libro();
-
+        if (isbn == null) {
+            throw new InvalidParameterException("Isbn es nulo.");
+        }
+        if (titulo == null) {
+            throw new InvalidParameterException("titulo es nulo.");
+        }
+        if (autorId == null) {
+            throw new InvalidParameterException("autor ID es nulo.");
+        }
+        if (editorialId == null) {
+            throw new InvalidParameterException("editorial ID es nulo.");
+        }
         libro.setIsbn(isbn);
         libro.setTitulo(titulo);
         libro.setEjemplares(ejemplares);
