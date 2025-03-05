@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.egg.demo.entidades.Autor;
 import com.egg.demo.entidades.Editorial;
+import com.egg.demo.entidades.Libro;
 import com.egg.demo.servicios.AutorServicio;
 import com.egg.demo.servicios.EditorialServicio;
 import com.egg.demo.servicios.LibroServicio;
@@ -58,5 +59,13 @@ public class LibroControlador {
             return "libro_form.html";
         }
         return "index.html";
+    }
+
+    @GetMapping("/lista")
+    public String listar(ModelMap modelo) {
+
+        List<Libro> libros = libroServicio.listarLibros();
+        modelo.addAttribute("libros", libros);
+        return "libro_list.html";
     }
 }
