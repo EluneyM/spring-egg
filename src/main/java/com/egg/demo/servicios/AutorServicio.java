@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.egg.demo.entidades.Autor;
-import com.egg.demo.entidades.Editorial;
 import com.egg.demo.exceptiones.AutorNoEncontradoException;
 import com.egg.demo.repositorios.AutorRepositorio;
 
