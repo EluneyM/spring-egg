@@ -20,8 +20,19 @@ public class SeguridadWeb {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/css/", "/js/", "/img/", "/**").permitAll())
-                .csrf(csrf -> csrf.disable());
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/registro", "/registrar")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                .csrf(csrf -> csrf.disable())
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/logincheck")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/inicio", true)
+                        .permitAll());
         return http.build();
     }
 }

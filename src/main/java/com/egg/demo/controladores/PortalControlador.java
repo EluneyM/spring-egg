@@ -1,6 +1,7 @@
 package com.egg.demo.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.egg.demo.entidades.Usuario;
 import com.egg.demo.servicios.UsuarioServicio;
 
 @Controller
@@ -40,7 +40,7 @@ public class PortalControlador {
 
             model.put("exito", "Usuario registrado con éxito!");
 
-            return "index.html";
+            return "login.html";
         } catch (Exception e) {
 
             model.put("error", e.getMessage());
@@ -52,7 +52,16 @@ public class PortalControlador {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(@RequestParam(required = false) String error, ModelMap modelo) {
+        if (error != null) {
+            modelo.put("error", "Usuario o Contraseña inválidos!");
+        }
         return "login.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/inicio")
+    public String inicio() {
+        return "inicio.html";
     }
 }
