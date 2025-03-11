@@ -20,7 +20,7 @@ public class PortalControlador {
 
     @GetMapping("/")
     public String index() {
-        return "index.html";
+        return "inicio.html";
     }
 
     @GetMapping("/registrar")
@@ -59,7 +59,7 @@ public class PortalControlador {
         return "login.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("/inicio")
     public String inicio() {
         return "inicio.html";
