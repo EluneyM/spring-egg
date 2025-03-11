@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.egg.demo.entidades.Usuario;
+import com.egg.demo.enumeraciones.Rol;
 import com.egg.demo.servicios.UsuarioServicio;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping
@@ -61,7 +65,13 @@ public class PortalControlador {
 
     @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("/inicio")
-    public String inicio() {
+    public String inicio(HttpSession session) {
+
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
+
+        if (usuarioLogueado.getRol().toString().equals("ADMIN")) {
+            return "redirect:/admin/dashboard";
+        }
         return "inicio.html";
     }
 }
