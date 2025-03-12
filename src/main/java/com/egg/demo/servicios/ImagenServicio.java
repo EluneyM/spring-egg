@@ -14,7 +14,7 @@ public class ImagenServicio {
     @Autowired
     private ImagenRepositorio imagenRepositorio;
 
-    public Imagen guardar(MultipartFile archivo) throws Exception {
+    public Imagen guardar(MultipartFile archivo) {
         if (archivo == null) {
             return null;
         }
@@ -33,7 +33,7 @@ public class ImagenServicio {
         }
     }
 
-    public Imagen actualizar(MultipartFile archivo, String imagenId) throws Exception {
+    public Imagen actualizar(MultipartFile archivo, String imagenId) {
 
         if (archivo == null) {
             return null;
